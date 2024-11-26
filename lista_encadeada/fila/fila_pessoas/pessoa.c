@@ -26,7 +26,7 @@ Pessoa ler(){
     return people;
 }
 
-//Enfileirar
+//Enfileirar com prioridade
 void enqueue( Fila** fila, Pessoa pessoa){
     Fila* queue = (Fila*)malloc(sizeof(Fila));
     Fila* aux;
@@ -36,17 +36,20 @@ void enqueue( Fila** fila, Pessoa pessoa){
         queue->prox = NULL;
 
         //Se a fila estiver vazia
-        if( *fila == NULL){
+        if( *fila == NULL || pessoa.idade > (*fila)->person.idade){
+            queue->prox = *fila;
             *fila = queue;
         }else{
             aux = *fila;
 
             //Percorrer a fila
-            while(aux->prox != NULL){
+            while(aux->prox != NULL && aux->prox->person.idade >= pessoa.idade ){
                 aux = aux->prox;
             }
 
+            queue->prox = aux->prox;
             aux->prox = queue;
+
         }
     }else{
         printf("Erro na alocacao da fila, funcao enqueue\n");
